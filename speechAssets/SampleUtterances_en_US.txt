@@ -1,0 +1,14 @@
+GetNewFactIntent a jon fact
+GetNewFactIntent a Jon fact
+GetNewFactIntent tell me a fact
+GetNewFactIntent tell me a Jon fact
+GetNewFactIntent give me a fact
+GetNewFactIntent give me a Jon fact
+GetNewFactIntent tell me saying
+GetNewFactIntent tell me a Jon saying
+GetNewFactIntent give me saying
+GetNewFactIntent give me a Jon saying
+GetNewFactIntent give me some sayings
+GetNewFactIntent give me some Jon sayings
+GetNewFactIntent tell me something jon would say
+GetNewFactIntent give me something would say

@@ -1,0 +1,17 @@
+{
+  "name": "Take a shot of.",
+  "version": "1.0",
+  "description": "You must take a shot of....",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "alexa"
+  ],
+  "author": "Joe Rulea",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "alexa-sdk": "^1.0.9"
+  }
+}
