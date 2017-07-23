@@ -165,9 +165,17 @@ var handlers = {
         this.emit('GetBeers');
     },  
      'SweetMuffinsIntent': function() {
-       this.emit(':askWithCard', 'Are we talking about My sweet muffins from Pennsylvania or from England? Please Say "Pennsylvania" or "England" ');
+       this.emit(':askWithCard', 'Are we talking about My sweet muffins from Pennsylvania or from England?');
 
-},
+    },
+      'PennsylvaniaIntent': function() {
+              this.emit(':tellWithCard', 'DEBBIE Im celebrating tonight');
+
+      },
+      'EnglandIntent': function() {
+              this.emit(':tellWithCard', 'Jons mom may be far in distance but not heart ');
+
+      },
       'GetShots': function () {
        
 			  var people = this.t("names");
