@@ -3,7 +3,7 @@ const conversation = require('alexa-conversation');
 const app = require('/../index.js'); // your Alexa skill's main file. 
  
 const opts = { // those will be used to generate the requests to your skill 
-  name: 'getDrunk',
+  name: "let get drunk",
   appId: 'amzn1.ask.skill.0bd86f38-a7ef-42b1-9a4f-93e1acc4f04c',
   // Either provide your app (app.handler must exist)... 
   app: app,
