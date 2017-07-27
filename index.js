@@ -1,6 +1,8 @@
 'use strict';
 var Alexa = require('alexa-sdk');
-var APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+require('dotenv').config();
+
+var APP_ID =  process.env.APP_ID
 
 var languageStrings = {
     "en": {
@@ -40,9 +42,9 @@ var languageStrings = {
 //						"Amanda"
 					],
             "SKILL_NAME" : "Shots in English",
-            "GET_SHOT_MESSAGE" : "Who's up next? ....",
+            "upNext" : "Who's up next? ....",
             "HELP_MESSAGE" : "Do you really need help getting drunk?, Just say Alexa open wanna get drunk",
-            "HELP_REPROMPT" : "Really man? Wow is all i can say. You can say Alexa open wanna get drunk",
+            "HELP_REPROMPT" : "Really man? Wow is all Ican say. You can say Alexa open wanna get drunk",
             "STOP_MESSAGE" : "Quiting already?"
         }
     },
@@ -83,9 +85,9 @@ var languageStrings = {
 							],
 					
             "SKILL_NAME" : "Shots in en-us",
-            "GET_SHOT_MESSAGE" : "Who's up next? ....",
+            "upNext" : "Who's up next? ....",
             "HELP_MESSAGE" : "Do you really need help getting drunk?, Just say Alexa open wanna get drunk",
-            "HELP_REPROMPT" : "Really man? Wow is all i can say. You can say Alexa open wanna get drunk",
+            "HELP_REPROMPT" : "Really man? Wow is all I can say. You can say Alexa open wanna get drunk",
             "STOP_MESSAGE" : "Quiting already?"
         }
     },
@@ -93,7 +95,7 @@ var languageStrings = {
         "translation": {
          						
 						"SHOTS": [
-						//This is where we would would switch up the sayings a little bit based on how brits/americans and other cultures say something a bit different .
+						//This is where we would switch up the sayings a little bit based on how brits/americans and other cultures say something a bit different .
 							 "Tequila",
 							 "southern comfort",
 							 "Whipped Vodka",
@@ -126,99 +128,114 @@ var languageStrings = {
 						"Amanda"
 							],
             "SKILL_NAME" : "Jons British Shot Game",
-            "GET_SHOT_MESSAGE" : "Who's up next? ....",
+            "upNext" : "Who's up next? ....",
             "HELP_MESSAGE" : "I know your british but come on man it's not that hard. Just say Alexa open wanna get drunk",
             "HELP_REPROMPT" : "Wow .... Just wow that is so lame that you must be Jon",
-            "STOP_MESSAGE" : "Jon is lame... but still are you quiting already?"
+            "STOP_MESSAGE" : "Jon is lame... but still are you quitting already?"
         }
     },
  };
 
-exports.handler = function(event, context, callback) {
-    var alexa = Alexa.handler(event, context);
-    alexa.APP_ID = APP_ID;
-    // To enable string internationalization (i18n) features, set a resources object.
-    alexa.resources = languageStrings;
-    alexa.registerHandlers(handlers);
-    alexa.execute();
-};
+
 
 var handlers = {
     'LaunchRequest': function () {
+     console.log("Skill Has been launched");
 // Once Alexa has been called on asks the question and either starts or stops it or whatever else im gonna decide to do HAHA its my skill
-     this.emit(':askWithCard', 'Sure but are sure you want to get drunk?','Sure but are sure you want to get drunk?','Hey are ypu sure you wanna get drunk? and I see you are reading this too So when you want to tell me "Sweet Muffins" for a special suprise');
+     var sure = 'Sounds good, but are you sure you can handle it?';
+     var special = 'Are you sure you can handle it?I also see you are using an Echo Show so for a special suprise tell me "Sweet Muffins" at anytime.';
+     this.emit(':ask', sure);
     },
  // If Yes asks what type of drinking you wanna do ie: shots or beers for now
     'AMAZON.YesIntent': function () {
+       console.log("Yes Intent");
        this.emit('BeerOrShotsIntent');
     },
    'AMAZON.NoIntent': function () {
-       this.emit(':tellWithCard', 'Dont Stop Now');
+       console.log("No Intent");
+       this.emit(':tell', 'Dont Stop Now');
     },
     'BeerOrShotsIntent': function() {
-       this.emit(':askWithCard', 'Are we drinking Shots or Beer?');
+       console.log("Shots or Beer Intent");
+       this.emit(':ask', 'Are we drinking Shots or Beer?');
      },
      'GetShotsIntent': function() {
-      this.emit('GetShots');
+             console.log("Shots Intent");
+
+      this.emit('GetDrinks',"SHOTS");
     },
      'GetBeersIntent': function() {
-        this.emit('GetBeers');
+             console.log("Beers Intent");
+
+        this.emit('GetDrinks',"BEERS");
     },  
      'SweetMuffinsIntent': function() {
-       this.emit(':askWithCard', 'Are we talking about My sweet muffins from Pennsylvania or from England?');
+      console.log("SweetMuffins Intent")
+       // If youave come across this intent then you are pretty cool.
+       this.emit(':ask', 'Are we talking about My sweet muffins from Pennsylvania or from England?');
 
     },
       'PennsylvaniaIntent': function() {
-              this.emit(':tellWithCard', 'DEBBIE Im celebrating tonight');
+              console.log("Debbies Intent or my Intent with her?");
 
-      },
+       // Debbie has been chosen that is pretty cool ;D
+              this.emit(':tell', 'DEBBIE? Im celebrating tonight!!');
+
+    },
       'EnglandIntent': function() {
-              this.emit(':tellWithCard', 'Jons mom may be far in distance but not heart ');
+              console.log("Jons Mom");
+              this.emit(':tell', 'Jons mom may be far in distance but not in heart ');
 
-      },
-      'GetShots': function () {
-       
-			  var people = this.t("names");
-			  var peopleindex = Math.floor(Math.random() * people.length);
-			
-        var drinkUp = this.t('SHOTS');
-			  var drinkOrder = Math.floor(Math.random() * drinkUp.length);
-			
-        var randomShot = people[peopleindex] + '   is    with    some    ' + drinkUp[drinkOrder];
-          // added '....' to give it a pause in between words in each array
-
-
-        // Create speech output
-        var speechOutput = this.t("GET_SHOT_MESSAGE") + randomShot;
-        this.emit(':tellWithCard', speechOutput, this.t("SKILL_NAME"), randomShot);
     },
-       'GetBeers': function () {
-       
-			  var people = this.t("names");
-			  var peopleindex = Math.floor(Math.random() * people.length);
-			
-        var drinkUp = this.t('BEERS');
-			  var drinkOrder = Math.floor(Math.random() * drinkUp.length);
-			
-        var randomBeer = people[peopleindex] + '   is     with     some    ' + drinkUp[drinkOrder];
-          // added '....' to give it a pause in between words in each array
+  'AMAZON.HelpIntent': function() {
+          console.log("Help Intent");
 
-
-        // Create speech output
-        var speechOutput = this.t("GET_SHOT_MESSAGE") + randomBeer;
-        this.emit(':tellWithCard', speechOutput, this.t("SKILL_NAME"), randomBeer);
-    },
-    
-    'AMAZON.HelpIntent': function() {
         var speechOutput = this.t("HELP_MESSAGE");
         var reprompt = this.t("HELP_MESSAGE");
         this.emit(':ask', speechOutput, reprompt);
     },
     'AMAZON.CancelIntent': function() {
+        console.log("Cancel Intent");
         this.emit(':tell', this.t("STOP_MESSAGE"));
     },
     'AMAZON.StopIntent': function() {
+        console.log("Stop Intent");
         this.emit(':tell', this.t("STOP_MESSAGE"));
     },
+// 'Unhandled' event in stateless handler
+    'Unhandled': function() {
+        console.log("Unhandled Intent");
 
+        this.emit(':ask', 'I didnt understand you. What did you say?', 'What did you say?');
+},
+ 
+
+ 
+      'GetDrinks': function(type) {
+       
+			  var people = this.t("names");
+			  var peopleindex = Math.floor(Math.random() * people.length);
+			
+        var drinkUp = this.t(type);
+			  var drinkOrder = Math.floor(Math.random() * drinkUp.length);
+			
+        var randomDrinkType = people[peopleindex] + ' is with some ' + drinkUp[drinkOrder];
+          // added '....' to give it a pause in between words in each array
+
+
+        // Create speech output
+        var speechOutput = this.t("upNext") + randomDrinkType;
+        this.emit(':ask', speechOutput, speechOutput, speechOutput);
+//        this.emit(':askWithCard', 'Would you like some more?');
+    }
+   
+};
+
+exports.handler = function(event, context) {
+    var alexa = Alexa.handler(event, context);
+    alexa.appId = APP_ID;
+    // To enable string internationalization (i18n) features, set a resources object.
+    alexa.resources = languageStrings;
+    alexa.registerHandlers(handlers);
+    alexa.execute();
 };

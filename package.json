@@ -1,0 +1,30 @@
+{
+  "name": "getDrunk",
+  "version": "1.0.0",
+  "description": "lets get drunk",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josephmckenzie/TakeaShot-AlexaSkill.git"
+  },
+  "author": "Joseph Mckenzoe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josephmckenzie/TakeaShot-AlexaSkill/issues"
+  },
+  "homepage": "https://github.com/josephmckenzie/TakeaShot-AlexaSkill#readme",
+  "dependencies": {
+    "alexa-app": "^4.0.1",
+    "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
+    "lodash": "^4.17.4",
+    "mocha": "^3.4.2",
+    "request-promise": "^4.2.1"
+  },
+  "devDependencies": {
+    "alexa-conversation": "^0.1.0"
+  }
+}
