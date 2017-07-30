@@ -1,4 +1,11 @@
+*****WORK IN PROGRESS , IT WORKS NOW BUT I'M CURRENTLY WORKING ON UPDATING TO MAKE MORE INTERACTIVE*****
+
+
+
 # TakeaShot-AlexaSkill
+
+This project was made using Node.js,JSON and an AWS Lambda to connect to Aexa's server, using the mocha testing framework we can ensure that the data we sent and recieved was correct and invoked the right Alexa custom skill(s)
+
 
 To add this skill to your own Alexa
 
