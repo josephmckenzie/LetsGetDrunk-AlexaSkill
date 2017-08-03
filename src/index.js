@@ -1,9 +1,21 @@
-'use strict';
 //require('dotenv').config();
+'use strict'
 
-var Alexa = require('alexa-sdk');
+/* jslint node: true */
+/* jshint esnext: true */
+/* eslint-env es6 */
+// import chai from "chai"
+var mocha = require('mocha');
+var Alexa = require('/usr/local/lib/node_modules/alexa-sdk');
+
+
+//  var  mockResponse = require('gamePlay.json');
+var gamePlay = require('./gamePlay.json');
+
 
 var APP_ID =  'amzn1.ask.skill.0bd86f38-a7ef-42b1-9a4f-93e1acc4f04c';
+
+
 
 var languageStrings = {
     "en": {
@@ -137,28 +149,41 @@ var languageStrings = {
     },
  };
 
-
-
+var attributes;
+var session;
+var speechResponse = '';
 var handlers = {
     'LaunchRequest': function () {
      console.log("Skill Has been launched");
+//     console.log(gamePlay);
+
 // Once Alexa has been called on asks the question and either starts or stops it or whatever else im gonna decide to do HAHA its my skill
-     var sure = 'Sounds good, but are you sure you can handle it?';
-     var special = 'Are you sure you can handle it?I also see you are using an Echo Show so for a special suprise tell me "Sweet Muffins" at anytime.';
-     this.emit(':ask', sure,sure);
+     var sure = 'Ok sure thing, but do you think that you can handle Alexa in drinking contest?';
+     attributes = {"name":'Initial Launch of App'};
+
+     
+     this.emit(':ask', sure,sure,session,attributes);
     },
+ 
  // If Yes asks what type of drinking you wanna do ie: shots or beers for now
     'AMAZON.YesIntent': function () {
-       console.log("Yes Intent");
-       this.emit('BeerOrShotsIntent');
+     console.log("Yes Intent");
+//     var handleIt = "I can handle Alexa";
+//     var nameValue = JSON.stringify(this.attributes.name);
+//     var attributesHash = JSON.parse(nameValue);
+//     console.log(attributesHash,handleIt);
+       this.emit(':ask', 'Sure thing, but are you sure you can hang this time?', 'Sure thing, but are you sure you can hang this time?', session);
+    
     },
    'AMAZON.NoIntent': function () {
        console.log("No Intent");
        this.emit(':tell', 'Dont Stop Now');
     },
     'BeerOrShotsIntent': function() {
-       console.log("Shots or Beer Intent");
-       this.emit(':ask', 'Are we drinking Shots or Beer?');
+             console.log("Shots or Beer Intent");
+    
+     
+       this.emit(':ask', 'Are we drinking Shots or Beer?', 'Are we drinking Shots or Beer?', session);
      },
      'GetShotsIntent': function() {
        console.log("Shots Intent");
@@ -215,10 +240,11 @@ var handlers = {
    
 };
 
-exports.handler = function(event, context) {
-    var alexa = Alexa.handler(event, context);
+exports.handler = function(event, context,callback) {
+    var alexa = Alexa.handler(event, context,callback);
     alexa.appId = APP_ID;
-    // To enable string internationalization (i18n) features, set a resources object.
+    alexa.session = session;
+    alexa.attributes = attributes;
     alexa.resources = languageStrings;
     alexa.registerHandlers(handlers);
     alexa.execute();

@@ -1,0 +1,31 @@
+{
+"customResponses": {
+   "greetings": {
+    "WaynesburgOffice":{
+     "Joe" : "Hello father thank you for giving me the precious gift of life., How are you doing father?",
+     "Teecee":"Teecee Hey Teecee Teecee, How's my little girl doing I love and miss you. Did you like this months Barkbox?",
+     "Coder":"Coder Hey there buddy i love you , Are you being a good boy? Did you like the barkbox?",
+     "Jen" : "Oh hey there Jen, How have you been doing lately?",
+     "Amanda": "Hi Amanda , How has your day been?",
+     "Jonathan":"Morning Jonathan, or as you would say it 'Wotcha cocker. Fancy a drink?' ",
+     "Heather":"Gooood Morning Heather, I trust you are doing well? Hope all is well.",
+     "Josh":"Hey Josh, Whats up my man? How is your day been?",
+     "Debbie":"Debbie, How's my favorite one there doing today? I hope all finds you well.",
+     "John": "Hello John with an H. How's it going man?",
+     "Aaron":"Hello there Aaron, I would like to know how you have been.",
+     "Students":"Hello Mined Minds Students, This is just one of the cool things you can do with Amazon's Alexa and the cloud. Would you like to give it a try?"
+    },
+    "ClendeninOffice":{
+     "Joe" : "Hello father thank you for giving me the precious gift of life. You Rock, but I digress how's it going father?",
+     "Mike":"Hello Mike how are doing today?",
+     "Jake":"Hi Jake how has your day been?",
+     "Jeremy": "Jeremy how you doing my good sir?",
+     "Susan":"Hey Susan, What is up? Does all find you well today?",
+     "John":"Hello there John, How has everything been?",
+     "Marv" : "Hello Marv,I see that you are still an ASS, but still how are you doing man?",
+     "Students":"Hello Mined Minds Students, This is just one of the cool things you can do with Amazon's Alexa and the cloud. Would you like to give it a try?"
+
+    }
+   }
+ }
+}
