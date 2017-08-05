@@ -148,87 +148,102 @@ var languageStrings = {
         }
     },
  };
+var attrArray = [];
+var attributes ;
+var name = "name";
+var sessionSpot;
+var speechResponse;
 
-var attributes;
-var session;
-var speechResponse = '';
 var handlers = {
+ 
     'LaunchRequest': function () {
-     console.log("Skill Has been launched");
-//     console.log(gamePlay);
-
-// Once Alexa has been called on asks the question and either starts or stops it or whatever else im gonna decide to do HAHA its my skill
-     var sure = 'Ok sure thing, but do you think that you can handle Alexa in drinking contest?';
-     attributes = {"name":'Initial Launch of App'};
-
-     
-     this.emit(':ask', sure,sure,session,attributes);
+      console.log("Initial App launched,Alexa Asks: Can you handle Alexa?");
+      sessionSpot = 'Initial App launched, Alexa Asks: Can you handle Alexa?';
+      attributes = {} ;
+      attributes[name] = sessionSpot;
+      attrArray.push(attributes);
+      speechResponse = 'Sure, but do you really think that you can handle Alexa?';
+      console.log(attributes,"Attributes Hash for this session");
+      console.log(attrArray,"Attributes Array of hashes");
+      
+     this.emit(':ask', speechResponse,speechResponse,attributes);
+    },
+    
+    'Unhandled': function() {
+      console.log("Unhandled Intent");
+      this.emit(':ask', 'What did you say? Are you drunk?', "I'll say it slower please repeat your self!");
     },
  
- // If Yes asks what type of drinking you wanna do ie: shots or beers for now
     'AMAZON.YesIntent': function () {
-     console.log("Yes Intent");
-//     var handleIt = "I can handle Alexa";
-//     var nameValue = JSON.stringify(this.attributes.name);
-//     var attributesHash = JSON.parse(nameValue);
-//     console.log(attributesHash,handleIt);
-       this.emit(':ask', 'Sure thing, but are you sure you can hang this time?', 'Sure thing, but are you sure you can hang this time?', session);
-    
+     console.log("Alexa Asked: Can you handle Alexa?, Response: Yes");
+     sessionSpot = "Alexa Asked: Can you handle Alexa?, Response: Yes";
+     attributes = {} ;
+     attributes[name] = sessionSpot;
+     attrArray.push(attributes);
+     speechResponse ='Awesome, are we drinking Shots or Beer?';
+     console.log(attributes,"Attributes Hash for this session");
+     console.log(attrArray,"Attributes Array of hashes");
+
+     this.emit(':ask',speechResponse ,speechResponse, attributes);
     },
-   'AMAZON.NoIntent': function () {
+ 
+    'AMAZON.NoIntent': function () {
        console.log("No Intent");
        this.emit(':tell', 'Dont Stop Now');
     },
+
+    'AMAZON.HelpIntent': function() {
+          console.log("Help Intent");
+          var speechOutput = this.t("HELP_MESSAGE");
+          var reprompt = this.t("HELP_MESSAGE");
+          this.emit(':ask', speechOutput, reprompt);
+      },
+
+     'AMAZON.CancelIntent': function() {
+         console.log("Cancel Intent");
+         this.emit(':tell', this.t("STOP_MESSAGE"));
+     },
+
+     'AMAZON.StopIntent': function() {
+         console.log("Stop Intent");
+         this.emit(':tell', this.t("STOP_MESSAGE"));
+     },
+ 
     'BeerOrShotsIntent': function() {
              console.log("Shots or Beer Intent");
     
      
        this.emit(':ask', 'Are we drinking Shots or Beer?', 'Are we drinking Shots or Beer?', session);
      },
+ 
      'GetShotsIntent': function() {
        console.log("Shots Intent");
        this.emit('GetDrinks',"SHOTS");
     },
+ 
      'GetBeersIntent': function() {
        console.log("Beers Intent");
        this.emit('GetDrinks',"BEERS");
     },  
+ 
      'SweetMuffinsIntent': function() {
        // If youave come across this intent then you are pretty cool.
        console.log("SweetMuffins Intent");
        this.emit(':ask', 'Are we talking about My sweet muffins from Pennsylvania or from England?');
     },
+ 
       'PennsylvaniaIntent': function() {
           // Debbie has been chosen that is pretty cool ;D
         console.log("Debbies Intent or my Intent with her?");
         this.emit(':tell', 'DEBBIE? Im celebrating tonight!!');
     },
+ 
       'EnglandIntent': function() {
         console.log("Jons Mom");
         this.emit(':tell', 'Jons mom may be far in distance but not in heart ');
     },
-  'AMAZON.HelpIntent': function() {
-        console.log("Help Intent");
-        var speechOutput = this.t("HELP_MESSAGE");
-        var reprompt = this.t("HELP_MESSAGE");
-        this.emit(':ask', speechOutput, reprompt);
-    },
-    'AMAZON.CancelIntent': function() {
-        console.log("Cancel Intent");
-        this.emit(':tell', this.t("STOP_MESSAGE"));
-    },
-    'AMAZON.StopIntent': function() {
-        console.log("Stop Intent");
-        this.emit(':tell', this.t("STOP_MESSAGE"));
-    },
-// 'Unhandled' event in stateless handler
-    'Unhandled': function() {
-        console.log("Unhandled Intent");
-        this.emit(':ask', 'I didnt understand you. What did you say?', 'What did you say?');
-},
  
     'GetDrinks': function(type) {
-      
 			  var people = this.t("names");
 			  var peopleindex = Math.floor(Math.random() * people.length);
         var drinkUp = this.t(type);
@@ -237,13 +252,11 @@ var handlers = {
         var speechOutput = this.t("upNext") + randomDrinkType;
         this.emit(':ask', speechOutput, speechOutput, speechOutput);
     }
-   
 };
 
 exports.handler = function(event, context,callback) {
     var alexa = Alexa.handler(event, context,callback);
     alexa.appId = APP_ID;
-    alexa.session = session;
     alexa.attributes = attributes;
     alexa.resources = languageStrings;
     alexa.registerHandlers(handlers);
