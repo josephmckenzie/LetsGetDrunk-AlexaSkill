@@ -25,7 +25,9 @@ var str = JSON.parse(results);
 var phrases = str.Items;
 
 phrases.forEach(function(item) {
+	if (item.skill == 'Whose Shot') {
     personsarray.push(item.personsname);
+	}
 });
 	console.log(personsarray,"Persons Drinking")
 	});
