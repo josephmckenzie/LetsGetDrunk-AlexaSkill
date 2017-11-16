@@ -1,34 +1,18 @@
 {
-  "name": "lets-get-drunk",
-  "version": "1.0.0",
-  "description": "An Alexa party skill app designed to tell who should drink what at a party or wherever ... I don't judge  ",
+  "name": "Take a shot of.",
+  "version": "1.0",
+  "description": "You must take a shot of....",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test_alexa.js ; exit 0"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "alexa"
   ],
-  "author": "Joseph Mckenzie",
+  "author": "Joe Rulea",
   "license": "Apache-2.0",
   "dependencies": {
-    "alexa-sdk": "^1.0.9"
-  },
-  "devDependencies": {
-    "alexa-conversation": "^0.1.0",
-    "chai": "^4.1.0",
-    "mocha": "^3.5.0",
-    "standard": "^3.13.2"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/josephmckenzie/LetsGetDrunk-AlexaSkill.git"
-  },
-  "bugs": {
-    "url": "https://github.com/josephmckenzie/LetsGetDrunk-AlexaSkill/issues"
-  },
-  "homepage": "https://github.com/josephmckenzie/LetsGetDrunk-AlexaSkill#readme"
+    "alexa-sdk": "^1.0.9",
+    "https": "^1.0.0"
+  }
 }
