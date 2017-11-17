@@ -1,13 +1,11 @@
 'use strict';
 var Alexa = require('alexa-sdk');
-var APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+var APP_ID = 'amzn1.ask.skill.cea43b8e-6d61-4fe6-a54b-fbcdce86a85f';  // TODO replace with your app ID (OPTIONAL).
 
-
-
-
-  var https = require('https');
+    var https = require('https');
   var results = '';
-  var personsarray = ['Joe'] || personsarray;
+  var personsarray = ['Free Pass'] || personsarray;
+  var shotsarray = ['Free Pass'] || shotsarray;
   var options = {
         host: 'bsi7688wf2.execute-api.us-east-1.amazonaws.com',
         path: '/dev/todos',
@@ -22,43 +20,28 @@ var callback = function(response) {
   response.on('end', function () {
 //    console.log(str,"str");
 var str = JSON.parse(results);
-var phrases = str.Items;
+var phrases = str;
 
 phrases.forEach(function(item) {
-	if (item.skill == 'Whose Shot') {
+	if (item.personsname !== null ) {
     personsarray.push(item.personsname);
 	}
-});
+if (item.shotname !== null ) {
+console.log(item.shotname);
+    shotsarray.push(item.shotname);
+	}
+})
+
 	console.log(personsarray,"Persons Drinking")
+	console.log(shotsarray,"Persons Drinking these shots")
 	});
 };
 var req = https.request(options, callback).end();
 
-
-
-
-
-
-
-
-
 var languageStrings = {
     "en": {
         "translation": {
-             "FACTS": [
-              "Pineapple Upsidedown cake",
-							 "Tequlia",
-							 "southern comfort",
-							 "Whipped Vodka",
-							 "Rum",
-							 "Fireball",
-							 "Angry Ball",
-							 "You pick it asshole",
-							 "Vegas Bomb",
-							 "JagerBomb",
-							 "Moonshine",
-							 "Sex on the beach"
-            ],
+             "shots": shotsarray,
 					  "names": personsarray,
 					
             "SKILL_NAME" : "Whose Shot, is it anyway?",
@@ -70,20 +53,7 @@ var languageStrings = {
     },
     "en-US": {
         "translation": {
-           "FACTS": [
-              "Pineapple Upsidedown cake",
-							 "Tequila",
-							 "southern comfort",
-							 "Whipped Vodka",
-							 "Rum",
-							 "Fireball",
-							 "Angry Ball",
-							 "You pick it asshole",
-							 "Vegas Bomb",
-							 "JagerBomb",
-						 	  "Moonshine",
-							 "Sex on the beach"
-            ],
+           "shots": shotsarray,
 						"names": personsarray,
 					
             "SKILL_NAME" : "Whose Shot, is it anyway?",
@@ -96,21 +66,7 @@ var languageStrings = {
     "en-GB": {
         "translation": {
          						
-						"FACTS": [
-						//This is where we would would switch up the sayings a little bit based on how brits/americans and other cultures say something a bit different .
-               "Pineapple Upsidedown cake",
-							 "Tequila",
-							 "southern comfort",
-							 "Whipped Vodka",
-							 "Rum",
-							 "Fireball",
-							 "Angry Ball",
-							 "You pick it asshole",
-							 "Vegas Bomb",
-							 "JagerBomb",
-						 	  "Moonshine",
-							 "Sex on the beach"
-            ],
+						"shots": shotsarray,
 					  "names": personsarray,
 					
             "SKILL_NAME" : "Whose Shot, is it anyway?",
@@ -124,7 +80,7 @@ var languageStrings = {
 
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
-    alexa.APP_ID = APP_ID;
+    alexa.appId=APP_ID;
     // To enable string internationalization (i18n) features, set a resources object.
     alexa.resources = languageStrings;
     alexa.registerHandlers(handlers);
@@ -145,14 +101,14 @@ var handlers = {
 			  var people = this.t("names");
 			  var peopleindex = Math.floor(Math.random() * people.length);
 			
-        var factArr = this.t('FACTS');
+        var factArr = this.t('shots');
 			  var factIndex = Math.floor(Math.random() * factArr.length);
 			
         var randomFact = people[peopleindex] + '....' + factArr[factIndex];
 
         // Create speech output
         var speechOutput = this.t("GET_FACT_MESSAGE") + randomFact;
-        this.emit(':tellWithCard', speechOutput, this.t("SKILL_NAME"), randomFact)
+        this.emit(':tellWithCard', speechOutput, this.t("SKILL_NAME"), randomFact);
     },
     'AMAZON.HelpIntent': function () {
         var speechOutput = this.t("HELP_MESSAGE");
